@@ -9,25 +9,16 @@ interface Props {
 }
 
 function InputField(props: Props) {
-  const { autoData, autoLoading, autoError, autocomplete } = useData();
+  const urlBase = import.meta.env.VITE_API_URL_AUTOCOMPLETE;
+  const { autoData, autocomplete } = useData();
 
-  // funzione che react-select usa per caricare le opzioni
-  const loadOptions = async (inputValue: string, callback: any) => {
-    if (!inputValue) {
-      callback([]);
-      return;
-    }
-    await autocomplete(inputValue); // chiama la tua funzione che fetcha i dati
-    if (autoData) {
-      // mappa i dati ricevuti in opzioni compatibili con react-select
-      const options = autoData.map((city: any) => ({
-        label: city.name,
-        value: city.id,
-      }));
-      callback(options);
-    }
+  const loadOptions = async (inputValue: string) => {
+    if (!inputValue) return [];
+    const url = `${urlBase}${inputValue}`;
+    const data = await autocomplete(url);
+    console.log(data);
+    return data;
   };
-
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       props.onFetch();
