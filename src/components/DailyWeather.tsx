@@ -20,7 +20,7 @@ function DailyWeather({ data, loading, error }: Props) {
     return (
       <div className="text-center mt-10">
         <p className="text-lg bg-red-500/80 text-white inline-block px-4 py-2 rounded-lg shadow-md">
-          ❌ Errore: <span className="font-semibold">{error}</span>
+          ❌ Error: <span className="font-semibold">{error}</span>
         </p>
       </div>
     );
@@ -54,14 +54,14 @@ function DailyWeather({ data, loading, error }: Props) {
             <p className="text-xl">{day.day.condition.text}</p>
           </div>
 
-          <p>Temperatura max: {day.day.maxtemp_c} °C</p>
-          <p>Temperatura min: {day.day.mintemp_c} °C</p>
-          <p>Temperatura media: {day.day.avgtemp_c} °C</p>
-          <p>Vento max: {day.day.maxwind_kph} km/h</p>
-          <p>Precipitazioni: {day.day.totalprecip_mm} mm</p>
-          <p>Umidità media: {day.day.avghumidity} %</p>
-          <p>Probabilità di pioggia: {day.day.daily_chance_of_rain} %</p>
-          <p>Indice UV: {day.day.uv}</p>
+          <p>Max temperature: {day.day.maxtemp_c} °C</p>
+          <p>Min temperature: {day.day.mintemp_c} °C</p>
+          <p>Average temperature: {day.day.avgtemp_c} °C</p>
+          <p>Max wind: {day.day.maxwind_kph} km/h</p>
+          <p>Precipitation: {day.day.totalprecip_mm} mm</p>
+          <p>Average humidity: {day.day.avghumidity} %</p>
+          <p>Chance of rain: {day.day.daily_chance_of_rain} %</p>
+          <p>UV index: {day.day.uv}</p>
         </div>
       ))}
     </div>
