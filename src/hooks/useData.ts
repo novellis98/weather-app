@@ -1,32 +1,59 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 
-function useData(url: string) {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+function useData() {
+  // Stato per i dati meteo
+  const [weatherData, setWeatherData] = useState(null);
+  const [weatherLoading, setWeatherLoading] = useState(false);
+  const [weatherError, setWeatherError] = useState<string | null>(null);
 
-  async function fetchData() {
+  // Stato per l’autocompletamento
+  const [autoData, setAutoData] = useState(null);
+  const [autoLoading, setAutoLoading] = useState(false);
+  const [autoError, setAutoError] = useState<string | null>(null);
+
+  //  previsioni meteo
+  async function fetchData(url: string) {
     if (!url) return;
-    setLoading(true);
-    setError(null);
+    setWeatherLoading(true);
+    setWeatherError(null);
     try {
       const res = await axios.get(url);
-      setData(res.data);
+      setWeatherData(res.data);
     } catch (err: any) {
-      setError(
-        "errore durante la richiesta, riprova o inserisci la città corretta"
+      setWeatherError(
+        "Errore durante la richiesta meteo, riprova o controlla la città."
       );
     } finally {
-      setLoading(false);
+      setWeatherLoading(false);
     }
   }
 
-  useEffect(() => {
-    fetchData();
-  }, [url]);
+  //  autocompletamento città
+  async function autocomplete(url: string) {
+    if (!url) return;
+    setAutoLoading(true);
+    setAutoError(null);
+    try {
+      const res = await axios.get(url);
+      setAutoData(res.data);
+    } catch (err: any) {
+      setAutoError("Errore durante l'autocompletamento");
+    } finally {
+      setAutoLoading(false);
+    }
+  }
 
-  return { data, loading, error, fetchData };
+  return {
+    weatherData,
+    weatherLoading,
+    weatherError,
+    fetchData,
+    autoData,
+    autoLoading,
+    autoError,
+    autocomplete,
+  };
 }
 
 export default useData;

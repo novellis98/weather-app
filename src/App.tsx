@@ -8,8 +8,7 @@ import useData from "./hooks/useData";
 function App() {
   const [cityName, setCityName] = useState("");
   const urlBase = import.meta.env.VITE_API_URL;
-  const [fetchUrl, setFetchUrl] = useState("");
-  const { data, loading, error, fetchData } = useData(fetchUrl);
+  const { weatherData, weatherLoading, weatherError, fetchData } = useData();
 
   function onChangeCityName(e: React.ChangeEvent<HTMLInputElement>) {
     setCityName(e.target.value);
@@ -18,8 +17,7 @@ function App() {
   function handleFetchData() {
     if (!cityName) return;
     const uri = `${urlBase}${cityName}&days=5&aqi=no&alerts=no`;
-    setFetchUrl(uri);
-    fetchData();
+    fetchData(uri);
   }
 
   return (
@@ -30,7 +28,11 @@ function App() {
         cityName={cityName}
         onFetch={handleFetchData}
       />
-      <DailyWeather data={data} loading={loading} error={error} />
+      <DailyWeather
+        data={weatherData}
+        loading={weatherLoading}
+        error={weatherError}
+      />
     </div>
   );
 }
