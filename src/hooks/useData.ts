@@ -21,9 +21,7 @@ function useData() {
       const res = await axios.get(url);
       setWeatherData(res.data);
     } catch (err: any) {
-      setWeatherError(
-        "Errore durante la richiesta meteo, riprova o controlla la città."
-      );
+      setWeatherError("");
     } finally {
       setWeatherLoading(false);
     }

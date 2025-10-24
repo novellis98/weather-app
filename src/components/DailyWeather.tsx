@@ -9,7 +9,7 @@ function DailyWeather({ data, loading, error }: Props) {
     return (
       <div className="text-center mt-10 text-white">
         <p className="text-lg animate-pulse bg-blue-500/50 inline-block px-4 py-2 rounded-lg shadow-md">
-          ⏳ Caricamento in corso...
+          ⏳ Loading...
         </p>
       </div>
     );
@@ -27,7 +27,7 @@ function DailyWeather({ data, loading, error }: Props) {
     return (
       <div className="text-center mt-10">
         <p className="text-lg bg-yellow-400/90 text-gray-800 inline-block px-4 py-2 rounded-lg shadow-md">
-          🌆 Inserisci una città e premi invio
+          🌆 Insert a city to check weather in the next 5 days
         </p>
       </div>
     );
