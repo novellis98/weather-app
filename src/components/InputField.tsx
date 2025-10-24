@@ -1,6 +1,6 @@
-import { AiOutlineArrowRight } from "react-icons/ai";
 import AsyncSelect from "react-select/async";
 import useData from "../hooks/useData";
+import type { City, CityOption } from "../interfaces/interfaces";
 
 interface Props {
   cityName: string;
@@ -10,20 +10,22 @@ interface Props {
 
 function InputField(props: Props) {
   const urlBase = import.meta.env.VITE_API_URL_AUTOCOMPLETE;
-  const { autoData, autocomplete } = useData();
+  const { autocomplete } = useData();
 
   const loadOptions = async (inputValue: string) => {
     if (!inputValue) return [];
     const url = `${urlBase}${inputValue}`;
-    autocomplete(url);
-    if (autoData) {
-      return autoData.map((city: any) => ({
+    try {
+      const res = await autocomplete(url);
+      return res.map((city: City) => ({
         label: city.name,
         value: city.id,
       }));
+    } catch {
+      return [];
     }
-    return [];
   };
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       props.onFetch();
@@ -31,28 +33,20 @@ function InputField(props: Props) {
   };
 
   return (
-    <div className="flex  justify-center gap-2 mt-10 w-60 mx-auto relative">
-      <AsyncSelect
+    <div className="flex  justify-center gap-2 mt-10 w-72 mx-auto relative">
+      <AsyncSelect<CityOption>
+        className="w-100"
         loadOptions={loadOptions}
         defaultOptions
         // onChange={props.onChange}
-        onChange={(selectedOption: any) => {
-          // aggiorna lo stato del parent con il nome città
+        onChange={(selectedOption: CityOption | null) => {
           props.onChange({
             target: { value: selectedOption?.label },
           } as React.ChangeEvent<HTMLInputElement>);
         }}
         onKeyDown={handleKeyDown}
         placeholder="Insert city name"
-        onClick={props.onFetch}
       />
-
-      <button
-        className="bg-green-700 rounded-sm py-1 px-4 "
-        onClick={props.onFetch}
-      >
-        <AiOutlineArrowRight className="text-amber-300 " />
-      </button>
     </div>
   );
 }

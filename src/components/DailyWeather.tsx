@@ -1,5 +1,7 @@
+import type { ForecastDay, WeatherData } from "../interfaces/interfaces";
+
 interface Props {
-  data: any;
+  data: WeatherData | null;
   loading: boolean;
   error: string | null;
 }
@@ -39,7 +41,7 @@ function DailyWeather({ data, loading, error }: Props) {
         )
       </h2>
 
-      {data.forecast?.forecastday?.map((day: any, idx: number) => (
+      {data.forecast?.forecastday?.map((day: ForecastDay, idx: number) => (
         <div key={idx} className="p-4 rounded-lg bg-blue-200 shadow-md">
           <h3 className="font-bold text-lg mb-2">{day.date}</h3>
 
