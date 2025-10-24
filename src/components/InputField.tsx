@@ -5,7 +5,7 @@ import type { City, CityOption } from "../interfaces/interfaces";
 interface Props {
   cityName: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onFetch: () => void;
+  onFetch: (city?: string) => void;
 }
 
 function InputField(props: Props) {
@@ -25,26 +25,24 @@ function InputField(props: Props) {
       return [];
     }
   };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      props.onFetch();
-    }
-  };
-
   return (
     <div className="flex  justify-center gap-2 mt-10 w-72 mx-auto relative">
       <AsyncSelect<CityOption>
         className="w-100"
         loadOptions={loadOptions}
         defaultOptions
-        // onChange={props.onChange}
         onChange={(selectedOption: CityOption | null) => {
+          if (!selectedOption) return;
           props.onChange({
-            target: { value: selectedOption?.label },
+            target: { value: selectedOption.label },
           } as React.ChangeEvent<HTMLInputElement>);
+          props.onFetch(selectedOption.label);
         }}
-        onKeyDown={handleKeyDown}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            props.onFetch();
+          }
+        }}
         placeholder="Insert city name"
       />
     </div>

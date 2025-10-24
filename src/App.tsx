@@ -9,14 +9,13 @@ function App() {
   const [cityName, setCityName] = useState("");
   const urlBase = import.meta.env.VITE_API_URL;
   const { weatherData, weatherLoading, weatherError, fetchData } = useData();
-
   function onChangeCityName(e: React.ChangeEvent<HTMLInputElement>) {
     setCityName(e.target.value);
   }
-
-  function handleFetchData() {
-    if (!cityName) return;
-    const uri = `${urlBase}${cityName}&days=5&aqi=no&alerts=no`;
+  function handleFetchData(city?: string) {
+    const name = city ?? cityName;
+    if (!name) return;
+    const uri = `${urlBase}${name}&days=5&aqi=no&alerts=no`;
     fetchData(uri);
   }
 
