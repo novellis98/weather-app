@@ -14,7 +14,9 @@ function useData(url: string) {
       const res = await axios.get(url);
       setData(res.data);
     } catch (err: any) {
-      setError(err.message);
+      setError(
+        "errore durante la richiesta, riprova o inserisci la città corretta"
+      );
     } finally {
       setLoading(false);
     }

@@ -5,9 +5,32 @@ interface Props {
 }
 
 function DailyWeather({ data, loading, error }: Props) {
-  if (loading) return <p>Caricamento...</p>;
-  if (error) return <p>Errore: {error}</p>;
-  if (!data) return <p>Inserisci una città e premi invio</p>;
+  if (loading)
+    return (
+      <div className="text-center mt-10 text-white">
+        <p className="text-lg animate-pulse bg-blue-500/50 inline-block px-4 py-2 rounded-lg shadow-md">
+          ⏳ Caricamento in corso...
+        </p>
+      </div>
+    );
+
+  if (error)
+    return (
+      <div className="text-center mt-10">
+        <p className="text-lg bg-red-500/80 text-white inline-block px-4 py-2 rounded-lg shadow-md">
+          ❌ Errore: <span className="font-semibold">{error}</span>
+        </p>
+      </div>
+    );
+
+  if (!data)
+    return (
+      <div className="text-center mt-10">
+        <p className="text-lg bg-yellow-400/90 text-gray-800 inline-block px-4 py-2 rounded-lg shadow-md">
+          🌆 Inserisci una città e premi invio
+        </p>
+      </div>
+    );
 
   return (
     <div className="max-w-md mx-auto mt-8 space-y-6">
